@@ -6,4 +6,4 @@
 - Get your Discord Bot TOKEN and invite it into your guild.
 - Get your Discord Guild ID.
 
--# The programs was product with AI help.
+### The programs was product with AI help.
