@@ -233,7 +233,7 @@ async def on_message (message ):
                         english_name =POKEMON_NAME_MAP .get (poke_id ,"Unknown Name")
 
 
-                        print (f"🔥 辨識成功！")
+                        print (f"辨識成功！")
                         print (f"   - 原始檔名: {matched_filename }")
                         print (f"   - 寶可夢 ID: {poke_id }")
                         print (f"   - 英文名稱: {english_name }")
@@ -241,7 +241,7 @@ async def on_message (message ):
                         keyboard .write (f'@Pokétwo#8236 c {english_name }')
                         keyboard .press_and_release ('enter')
                     else :
-                        print ("❌ 辨識失敗：特徵不足或無匹配對象。")
+                        print ("辨識失敗：特徵不足或無匹配對象。")
 
 if __name__ =="__main__":
     if not DISCORD_BOT_TOKEN :
