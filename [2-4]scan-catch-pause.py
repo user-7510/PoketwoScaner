@@ -187,7 +187,7 @@ async def on_message (message ):
 
     if message .channel .id !=TARGET_CHANNEL_ID :
         return 
-    if "Whoa" in message.content or "ip"in message.content: #為測試才移到上面，實際使用時可以放到author.id底下。
+    if "Whoa" in message.content or message.content=="ip": #為測試才移到上面，實際使用時可以放到author.id底下。
         print("Whoa")
         keyboard.write("@Pokétwo#8236 inc pause")
         keyboard.press_and_release("enter")
