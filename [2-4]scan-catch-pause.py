@@ -186,15 +186,15 @@ async def on_message (message ):
 
     if message .channel .id !=TARGET_CHANNEL_ID :
         return 
-
-
-    if message .author .id !=TARGET_USER_ID :
-        return 
-
     if "Whoa" in message.content:
         keyboard.write("@Pokétwo#8236 inc pause")
         keyboard.press_and_release("enter")
         return
+
+    if message .author .id !=TARGET_USER_ID :
+        return 
+
+
 
     image_url =None 
 
