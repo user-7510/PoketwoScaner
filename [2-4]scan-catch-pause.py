@@ -252,6 +252,13 @@ async def on_message (message ):
                         keyboard .press_and_release ('enter')
                     else :
                         print ("辨識失敗：特徵不足或無匹配對象。")
+                        print(f'訊息網址：{message.jump_url}')
+                        try:
+                            with open("failed.txt",'a')as f:
+                                f.write(f'{message.id}: {message.jump_url}')
+                        except:
+                            with open("failed.txt",'w')as f:
+                                f.write(f'{message.id}: {message.jump_url}')
 
 if __name__ =="__main__":
     if not DISCORD_BOT_TOKEN :
