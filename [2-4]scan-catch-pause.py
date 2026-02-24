@@ -255,10 +255,10 @@ async def on_message (message ):
                         print(f'訊息網址：{message.jump_url}')
                         try:
                             with open("failed.txt",'a')as f:
-                                f.write(f'{message.id}: {message.jump_url}')
+                                f.write(f'{message.id}: {image_url}')
                         except:
                             with open("failed.txt",'w')as f:
-                                f.write(f'{message.id}: {message.jump_url}')
+                                f.write(f'{message.id}: {image_url}')
 
 if __name__ =="__main__":
     if not DISCORD_BOT_TOKEN :
