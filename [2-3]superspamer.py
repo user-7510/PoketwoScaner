@@ -302,7 +302,7 @@ async def on_message (message ):
                             poke_id =extract_number (matched_filename )
                             english_name =POKEMON_NAME_MAP .get (poke_id ,"Unknown Name")
 
-                            print (f"🔥 辨識成功！")
+                            print (f"辨識成功！")
                             print (f"   - 原始檔名: {matched_filename }")
                             print (f"   - 英文名稱: {english_name }")
                             print ("-"*30 )
@@ -312,7 +312,7 @@ async def on_message (message ):
                             keyboard.press_and_release('enter')
                             pyautogui.click(x=1500, y=200, button='left')
                         else :
-                            print ("❌ 辨識失敗：特徵不足或無匹配對象。")
+                            print ("辨識失敗：特徵不足或無匹配對象。")
         except Exception as e :
             print (f"處理圖片時發生錯誤: {e }")
         finally :
@@ -328,3 +328,4 @@ if __name__ =="__main__":
 
         load_spam_settings ()
         client .run (DISCORD_BOT_TOKEN )
+
