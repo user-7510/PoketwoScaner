@@ -192,7 +192,7 @@ async def on_message (message ):
         keyboard.write("@Pokétwo#8236 inc pause")
         keyboard.press_and_release("enter")
         return
-    if "ir" in message.content:
+    if message.content=="ir":
         print("inc resume")
         keyboard.write("@Pokétwo#8236 inc resume")
         keyboard.press_and_release("enter")
