@@ -14,8 +14,8 @@ from collections import Counter
 from concurrent .futures import ThreadPoolExecutor 
 
 
-DISCORD_BOT_TOKEN =input ("請輸入您的 Discord Bot Token：")
-TARGET_CHANNEL_ID =int (input ("請輸入要監聽的頻道 ID："))
+DISCORD_BOT_TOKEN =input ("請輸入您的 Discord Bot Token：")or "預設TOKEN"
+TARGET_CHANNEL_ID =int (input ("請輸入要監聽的頻道 ID："))or "預設ID"
 TARGET_USER_ID =716390085896962058 
 INDEX_FILE ="db_features.pkl"
 POKE_LIST_FILE ="pokelist.csv"
@@ -191,7 +191,7 @@ async def on_message (message ):
     if message .author .id !=TARGET_USER_ID :
         return 
 
-    if "Whoa there. Please tell us you’re human!" in message.content:
+    if "Whoa" in message.content:
         keyboard.write("@Pokétwo#8236 inc pause")
         keyboard.press_and_release("enter")
         return
@@ -236,7 +236,7 @@ async def on_message (message ):
                         english_name =POKEMON_NAME_MAP .get (poke_id ,"Unknown Name")
 
 
-                        print (f"🔥 辨識成功！")
+                        print (f"辨識成功！")
                         print (f"   - 原始檔名: {matched_filename }")
                         print (f"   - 寶可夢 ID: {poke_id }")
                         print (f"   - 英文名稱: {english_name }")
@@ -244,7 +244,7 @@ async def on_message (message ):
                         keyboard .write (f'@Pokétwo#8236 c {english_name }')
                         keyboard .press_and_release ('enter')
                     else :
-                        print ("❌ 辨識失敗：特徵不足或無匹配對象。")
+                        print ("辨識失敗：特徵不足或無匹配對象。")
 
 if __name__ =="__main__":
     if not DISCORD_BOT_TOKEN :
