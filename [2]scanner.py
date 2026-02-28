@@ -13,8 +13,11 @@ from collections import Counter
 from concurrent .futures import ThreadPoolExecutor 
 
 
-DISCORD_BOT_TOKEN =input("TOKEN：") #自行填入
-TARGET_GUILD_ID =int (input ("伺服器ID："))
+DISCORD_BOT_TOKEN =input("TOKEN：")or"預設TOKEN"
+try:
+    TARGET_GUILD_ID =int (input ("伺服器ID："))or"預設ID"
+except:
+    print("ID錯誤，請重啟程式。")
 TARGET_USER_ID =716390085896962058 
 OUTPUT_CSV ="match_results.csv"
 INDEX_FILE ="db_features.pkl"
