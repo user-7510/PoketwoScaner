@@ -21,8 +21,8 @@ try :
 except :
     TARGET_CHANNEL_ID =int (input ("頻道ID: "))
 TARGET_USER_ID =716390085896962058 
-INDEX_FILE ="pokemon\images\db_features.pkl"
-POKE_LIST_FILE ="pokemon\pokelist.csv"
+INDEX_FILE =r"pokemon\images\db_features.pkl"
+POKE_LIST_FILE =r"pokemon\pokelist.csv"
 
 
 MAX_WORKERS =4 
