@@ -191,7 +191,7 @@ async def on_message (message ):
                     keyboard .write ('<@716390085896962058> inc buy 30minutes 30seconds -y')
                     keyboard .press_and_release ('enter')
                     await asyncio .sleep (0.2 )
-                    return
+                    #return
     if message .content.lower()=="ir":
 
         keyboard .write ('<@716390085896962058> inc resume')
