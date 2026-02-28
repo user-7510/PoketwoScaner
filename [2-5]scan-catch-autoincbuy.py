@@ -12,7 +12,11 @@ import discord
 from typing import Optional ,Tuple 
 from collections import Counter 
 from concurrent .futures import ThreadPoolExecutor 
+import datetime
+if not os.path.exists("failed"):
+    os.makedirs("failed")
 
+faildown=True
 DISCORD_BOT_TOKEN =input ("TOKEN: ")or "預設TOKEN"
 try :
     TARGET_CHANNEL_ID =int (input ("頻道ID："))
@@ -261,6 +265,12 @@ async def on_message (message ):
                             await asyncio .sleep (0.2 )
                     else :
                         print ("辨識失敗：特徵不足或無匹配對象。")
+                        if faildown:
+                            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                            save_path = os.path.join("failed", f"failed_{timestamp}.png")
+                            with open(save_path, "wb") as f:
+                                f.write(img_bytes)
+                            print(f"失敗的圖片已儲存至: {save_path}")
 
 if __name__ =="__main__":
     if not DISCORD_BOT_TOKEN :
