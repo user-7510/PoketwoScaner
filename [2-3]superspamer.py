@@ -23,7 +23,7 @@ DISCORD_BOT_TOKEN =input ("請輸入您的 Discord Bot Token (若已設置可跳
 try :
     TARGET_CHANNEL_ID =int (input ("請輸入要監聽的頻道 ID: "))
 except :
-    TARGET_CHANNEL_ID =0 
+    TARGET_CHANNEL_ID =int("預設ID") 
 
 TARGET_USER_ID =716390085896962058 
 INDEX_FILE ="db_features.pkl"
@@ -328,4 +328,5 @@ if __name__ =="__main__":
 
         load_spam_settings ()
         client .run (DISCORD_BOT_TOKEN )
+
 
