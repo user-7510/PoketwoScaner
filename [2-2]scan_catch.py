@@ -14,8 +14,12 @@ from collections import Counter
 from concurrent .futures import ThreadPoolExecutor 
 
 
-DISCORD_BOT_TOKEN =input ("請輸入您的 Discord Bot Token：")
-TARGET_CHANNEL_ID =int (input ("請輸入要監聽的頻道 ID："))
+DISCORD_BOT_TOKEN =input ("請輸入您的 Discord Bot Token：")or"預設TOKEN"
+TARGET_CHANNEL_ID =int (input ("請輸入要監聽的頻道 ID："))or"預設ID"
+try:
+    TARGET_CHANNEL_ID=int(TARGET_CHANNEL_ID)
+except:
+    print("ID錯誤，請重啟程式。")
 TARGET_USER_ID =716390085896962058 
 INDEX_FILE ="db_features.pkl"
 POKE_LIST_FILE ="pokelist.csv"
