@@ -13,21 +13,17 @@ from typing import Optional ,Tuple
 from collections import Counter 
 from concurrent .futures import ThreadPoolExecutor 
 
-
 DISCORD_BOT_TOKEN =input ("TOKEN: ")or "預設TOKEN"
-TARGET_CHANNEL_ID =input ("請輸入要監聽的頻道 ID：")or "預設ID"
 try :
-    TARGET_CHANNEL_ID =int (TARGET_CHANNEL_ID )
+    TARGET_CHANNEL_ID =int (input ("頻道ID："))
 except :
-    TARGET_CHANNEL_ID =int (input ("頻道ID: "))
+    TARGET_CHANNEL_ID =int("預設ID")
 TARGET_USER_ID =716390085896962058 
 INDEX_FILE =r"db_features.pkl"
 POKE_LIST_FILE =r"pokelist.csv"
 
-
 MAX_WORKERS =4 
 executor =ThreadPoolExecutor (max_workers =MAX_WORKERS )
-
 
 GLOBAL_INDEX_DATA =None 
 POKEMON_NAME_MAP ={}
@@ -39,10 +35,7 @@ intents =discord .Intents .default ()
 intents .message_content =True 
 client =discord .Client (intents =intents )
 
-
-
 def extract_number (text ):
-    """從字串或檔名中提取數字 ID"""
     if not text :
         return None 
     text =str (text )
@@ -52,7 +45,6 @@ def extract_number (text ):
     return None 
 
 def load_pokemon_mapping (file_path ):
-    """讀取 pokelist.csv 並建立 {ID: 英文名稱} 對照表"""
     mapping ={}
     print (f"正在讀取並解析 {file_path }...")
 
@@ -90,10 +82,7 @@ def load_pokemon_mapping (file_path ):
     print (f"已載入 {len (mapping )} 筆寶可夢名稱資料。")
     return mapping 
 
-
-
 def identify_image_worker (data :bytes )->Optional [Tuple [str ,int ]]:
-    """OpenCV 特徵比對 (執行於背景執行緒)"""
     if GLOBAL_INDEX_DATA is None :
         return None 
     try :
@@ -101,7 +90,6 @@ def identify_image_worker (data :bytes )->Optional [Tuple [str ,int ]]:
         target_img =cv2 .imdecode (nparr ,cv2 .IMREAD_GRAYSCALE )
         if target_img is None :
             return None 
-
 
         h ,w =target_img .shape 
         if max (h ,w )>640 :
@@ -112,7 +100,6 @@ def identify_image_worker (data :bytes )->Optional [Tuple [str ,int ]]:
         kp_query ,des_query =orb .detectAndCompute (target_img ,None )
         if des_query is None :
             return None 
-
 
         index_params =dict (algorithm =6 ,table_number =6 ,key_size =12 ,multi_probe_level =1 )
         flann =cv2 .FlannBasedMatcher (index_params ,dict (checks =50 ))
@@ -133,9 +120,7 @@ def identify_image_worker (data :bytes )->Optional [Tuple [str ,int ]]:
         if not votes :
             return None 
 
-
         best_img_id ,count =Counter (votes ).most_common (1 )[0 ]
-
 
         if count >=8 :
             return (GLOBAL_INDEX_DATA ["filenames"][best_img_id ],count )
@@ -144,15 +129,12 @@ def identify_image_worker (data :bytes )->Optional [Tuple [str ,int ]]:
         logger .error (f"辨識錯誤: {e }")
         return None 
 
-
-
 @client .event 
 async def on_ready ():
     global GLOBAL_INDEX_DATA 
     global POKEMON_NAME_MAP 
 
     print (f"\n登入身分: {client .user }")
-
 
     if not os .path .exists (INDEX_FILE ):
         print (f"錯誤: 找不到 {INDEX_FILE }");await client .close ();return 
@@ -172,7 +154,6 @@ async def on_ready ():
     "filenames":all_fnames 
     }
 
-
     if not os .path .exists (POKE_LIST_FILE ):
         print (f"錯誤: 找不到 {POKE_LIST_FILE }");await client .close ();return 
 
@@ -184,19 +165,15 @@ async def on_ready ():
 
 @client .event 
 async def on_message (message ):
-    if message .content.lower()=="ir" :
+    if message .content.lower()=="ir":
 
-
-
-        keyboard .write ('@Pokétwo#8326 inc resume')
+        keyboard .write ('<@716390085896962058> inc resume')
         keyboard .press_and_release ("enter")
         await asyncio .sleep (0 )
         return 
-    if  message .content .lower()=="ip":
+    if  message .content .lower()=="ip"or"whoa"in message.content.lower():
 
-
-
-        keyboard .write ('@Pokétwo#8326 inc pause')
+        keyboard .write ('<@716390085896962058> inc pause')
         keyboard .press_and_release ("enter")
         await asyncio .sleep (0 )
         return 
@@ -208,7 +185,6 @@ async def on_message (message ):
     if message .author .id !=TARGET_USER_ID :
         return 
 
-
     done =False 
 
     if re .search (r'https?://\S+',message .content ):
@@ -217,7 +193,6 @@ async def on_message (message ):
         keyboard .press_and_release ('enter')
         await asyncio .sleep (0.2 )
         return 
-
 
     if message .embeds :
         print ("偵測到嵌入訊息，正在檢查內容...")
@@ -237,41 +212,13 @@ async def on_message (message ):
                 done =True 
                 break 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     image_url =None 
-
 
     if message .attachments :
         for att in message .attachments :
             if any (att .filename .lower ().endswith (ext )for ext in ['.png','.jpg','.jpeg','.webp']):
                 image_url =att .url 
                 break 
-
 
     if not image_url and message .embeds :
         for embed in message .embeds :
@@ -282,7 +229,6 @@ async def on_message (message ):
                 image_url =embed .thumbnail .url 
                 break 
 
-
     if image_url :
         print (f"偵測到圖片，正在辨識... (URL: {image_url [:30 ]}...)")
 
@@ -291,19 +237,15 @@ async def on_message (message ):
                 if resp .status ==200 :
                     img_bytes =await resp .read ()
 
-
                     loop =asyncio .get_event_loop ()
                     result =await loop .run_in_executor (executor ,identify_image_worker ,img_bytes )
 
                     if result :
                         matched_filename ,score =result 
 
-
                         poke_id =extract_number (matched_filename )
                         english_name =POKEMON_NAME_MAP .get (poke_id ,"Unknown Name")
 
-
-                        print (f"🔥 辨識成功！")
                         print (f"   - 原始檔名: {matched_filename }")
                         print (f"   - 寶可夢 ID: {poke_id }")
                         print (f"   - 英文名稱: {english_name }")
@@ -312,14 +254,13 @@ async def on_message (message ):
                         keyboard .press_and_release ('enter')
                         await asyncio .sleep (0.5 )
 
-
                         if done :
-                            print ("⏰ 正在輸入購買命令...")
-                            keyboard .write ('@Pokétwo#8236 inc buy 30minutes 30seconds -y')
+                            print ("正在輸入購買命令...")
+                            keyboard .write ('<@716390085896962058> inc buy 30minutes 30seconds -y')
                             keyboard .press_and_release ('enter')
                             await asyncio .sleep (0.2 )
                     else :
-                        print ("❌ 辨識失敗：特徵不足或無匹配對象。")
+                        print ("辨識失敗：特徵不足或無匹配對象。")
 
 if __name__ =="__main__":
     if not DISCORD_BOT_TOKEN :
