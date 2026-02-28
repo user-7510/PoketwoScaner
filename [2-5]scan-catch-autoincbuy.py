@@ -184,11 +184,19 @@ async def on_ready ():
 
 @client .event 
 async def on_message (message ):
-    if "Ir"in message .content :
+    if "ir"in message .content.lower() :
 
 
 
         keyboard .write ('@Pokétwo#8326 inc resume')
+        keyboard .press_and_release ("enter")
+        await asyncio .sleep (0 )
+        return 
+    if "ip"in message .content .lower():
+
+
+
+        keyboard .write ('@Pokétwo#8326 inc pause')
         keyboard .press_and_release ("enter")
         await asyncio .sleep (0 )
         return 
