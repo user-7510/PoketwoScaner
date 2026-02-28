@@ -184,7 +184,7 @@ async def on_ready ():
 
 @client .event 
 async def on_message (message ):
-    if "ir"in message .content.lower() :
+    if message .content.lower()=="ir" :
 
 
 
@@ -192,7 +192,7 @@ async def on_message (message ):
         keyboard .press_and_release ("enter")
         await asyncio .sleep (0 )
         return 
-    if "ip"in message .content .lower():
+    if  message .content .lower()=="ip":
 
 
 
