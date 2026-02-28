@@ -15,7 +15,7 @@ from concurrent .futures import ThreadPoolExecutor
 
 
 DISCORD_BOT_TOKEN =input ("TOKEN: ")or "預設TOKEN"
-TARGET_CHANNEL_ID =int (input ("請輸入要監聽的頻道 ID："))or "預設ID"
+TARGET_CHANNEL_ID =input ("請輸入要監聽的頻道 ID：")or "預設ID"
 try :
     TARGET_CHANNEL_ID =int (TARGET_CHANNEL_ID )
 except :
