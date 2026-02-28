@@ -188,19 +188,23 @@ async def on_message (message ):
                 done =True
                 if done :
                     print ("正在輸入購買命令...")
-                    keyboard .write ('<@716390085896962058> inc buy 30minutes 30seconds -y')
+                    os.system(f'echo "<@716390085896962058> buy 30minutes 30seconds -y" | clip')
+                    keyboard.press_and_release('ctrl+v')
+                    #keyboard .write ('<@716390085896962058> inc buy 30minutes 30seconds -y')
                     keyboard .press_and_release ('enter')
                     await asyncio .sleep (0.2 )
                     #return
     if message .content.lower()=="ir":
-
-        keyboard .write ('<@716390085896962058> inc resume')
+        os.system(f'echo "<@716390085896962058> inc resume" | clip')
+        keyboard.press_and_release('ctrl+v')
+        #keyboard .write ('<@716390085896962058> inc resume')
         keyboard .press_and_release ("enter")
         await asyncio .sleep (0 )
         return 
     if  message .content .lower()=="ip"or"whoa"in message.content.lower():
-
-        keyboard .write ('<@716390085896962058> inc pause')
+        os.system(f'echo "<@716390085896962058> inc pause" | clip')
+        keyboard.press_and_release('ctrl+v')
+        #keyboard .write ('<@716390085896962058> inc pause')
         keyboard .press_and_release ("enter")
         await asyncio .sleep (0 )
         return 
@@ -215,8 +219,9 @@ async def on_message (message ):
     #done =False 
 
     if re .search (r'https?://\S+',message .content ):
-
-        keyboard .write ('@Pokétwo#8236 inc pause')
+        os.system(f'echo "<@716390085896962058> inc pause" | clip')
+        keyboard.press_and_release('ctrl+v')
+        #keyboard .write ('@Pokétwo#8236 inc pause')
         keyboard .press_and_release ('enter')
         await asyncio .sleep (0.2 )
         return 
