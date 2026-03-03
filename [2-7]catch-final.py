@@ -20,7 +20,7 @@ if not os .path .exists ("failed"):
     os .makedirs ("failed")
 
 faildown =True 
-DISCORD_BOT_TOKEN =input("TOKEN")or"預設" #改成你的
+DISCORD_BOT_TOKEN =input("TOKEN: ")or"預設" #改成你的
 try :
     TARGET_CHANNEL_ID =int (input("頻道ID: ")) 
 except :
@@ -269,3 +269,4 @@ async def on_message (message ):
 
 if __name__ =="__main__":
     client .run (DISCORD_BOT_TOKEN )
+
