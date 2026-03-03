@@ -182,6 +182,7 @@ async def on_message (message ):
                 print ("偵測到 'Spawns Remaining: 0'")
                 done =True 
                 if done :
+                    await asyncio .sleep (5)
                     print ("正在輸入購買命令...")
                     text ="<@716390085896962058> inc buy 30minutes 30seconds -y"
                     subprocess .run (['clip'],input =text .strip (),encoding ='utf-16',check =True )
@@ -271,6 +272,7 @@ async def on_message (message ):
 
 if __name__ =="__main__":
     client .run (DISCORD_BOT_TOKEN )
+
 
 
 
