@@ -163,7 +163,7 @@ async def on_ready ():
 @client .event 
 async def on_message (message ):
     if message .author .id ==874910942490677270 :
-        pass 
+        return 
     done =False 
     if message .embeds :
         print ("偵測到嵌入訊息，正在檢查內容...")
@@ -215,7 +215,7 @@ async def on_message (message ):
         return 
 
     if message .author .id !=TARGET_USER_ID :
-        pass 
+        return 
 
 
 
@@ -271,5 +271,6 @@ async def on_message (message ):
 
 if __name__ =="__main__":
     client .run (DISCORD_BOT_TOKEN )
+
 
 
