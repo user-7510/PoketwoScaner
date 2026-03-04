@@ -201,7 +201,7 @@ async def on_message (message ):
         keyboard .press_and_release ("enter")
         await asyncio .sleep (0 )
         return 
-    if message .content .lower ()=="ip"or "whoa"in message .content .lower ():
+    if message .content .lower ()=="ip":#or "whoa"in message .content .lower ()
         text ="<@716390085896962058> inc pause"
         subprocess .run (['clip'],input =text .strip (),encoding ='utf-16',check =True )
 
@@ -272,6 +272,7 @@ async def on_message (message ):
 
 if __name__ =="__main__":
     client .run (DISCORD_BOT_TOKEN )
+
 
 
 
