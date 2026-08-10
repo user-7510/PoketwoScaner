@@ -74,5 +74,6 @@ python main.py scan
 
 ```bash
 python main.py failcheck
-
 ```
+
+#### You can alse edit ./autoCatch.py for your own need.
