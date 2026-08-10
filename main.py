@@ -272,7 +272,7 @@ class AutoCatchBot:
         @self.client.event
         async def on_ready():
             print(f"\n登入身分: {self.client.user}")
-            print("自動監聽模組就緒（比對後僅印出名稱）。")
+            print("自動監聽模組就緒。")
 
         @self.client.event
         async def on_message(message):
@@ -324,11 +324,12 @@ class AutoCatchBot:
                                     pokeId, "Unknown Name"
                                 )
                                 print("--------------------------------")
-                                print(f"[辨識成功] 神奇寶貝名稱: {englishName}")
+                                print(f"[辨識成功] 名稱: {englishName}")
                                 print(f" - 匹配檔名: {matchedFilename}")
                                 print(f" - 辨識引擎: {engine}")
                                 print(f" - 特徵特數: {score}")
                                 print("--------------------------------")
+                                doAutoCatch(englishName)
                             else:
                                 print("[辨識失敗] 無法匹配此圖片。")
                                 if self.failDown:
@@ -606,8 +607,10 @@ class AppRunner:
         DownloaderService.runFailCheck()
 
     def runBuildIndex(self):
-        self.matcher.buildCombinedIndex(".")
+        self.matcher.buildCombinedIndex("data")
 
+def doAutoCatch(Name):
+    ...
 
 def main():
     parser = argparse.ArgumentParser(
