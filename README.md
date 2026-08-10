@@ -33,6 +33,8 @@ Ensure the following files and directories exist in your working environment bef
 
 ## Usage
 
+The big files can be download from https://drive.google.com/drive/folders/1CuRARgTeYvtyszGmSS_4EGpwWi3DLTj4?usp=sharing
+
 Run the script via the command line by specifying the execution mode:
 ### 0. Clone the reposory
 
@@ -48,7 +50,7 @@ cd PoketwoScaner
 python main.py buildindex
 
 ```
-- You can also directly download the zip from: [URL]
+- You can also directly download the zip from: https://drive.google.com/drive/folders/1CuRARgTeYvtyszGmSS_4EGpwWi3DLTj4?usp=sharing
 
 ### 2. Auto-Catch Mode
 
