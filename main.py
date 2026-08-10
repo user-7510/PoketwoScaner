@@ -20,6 +20,8 @@ import keyboard
 import numpy as np
 import requests
 
+from autoCatch import *
+
 logger = logging.getLogger("poke_system")
 
 
@@ -329,7 +331,7 @@ class AutoCatchBot:
                                 print(f" - Engine: {engine}")
                                 print(f" - Feature Score: {score}")
                                 print("--------------------------------")
-                                doAutoCatch(englishName)
+                                autoCatchLinux(englishName)
                             else:
                                 print("[Match Failed] Cannot match this image.")
                                 with open("failed.txt", "a", encoding="utf-8") as f:
@@ -611,10 +613,8 @@ class AppRunner:
     def runBuildIndex(self):
         self.matcher.buildCombinedIndex("data")
 
-def doAutoCatch(Name):
-    pass
-
 def main():
+    print("Press Ctrl+C when you want to leave.")
     parser = argparse.ArgumentParser(
         description="Auto-catch, channel scan, and failed download tool"
     )
