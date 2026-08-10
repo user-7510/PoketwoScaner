@@ -1,4 +1,4 @@
-#!/usrPlugin/env python3
+#!/usr/bin/env python3
 import argparse
 import asyncio
 import csv
@@ -60,7 +60,7 @@ class FeatureMatcher:
         self, databaseDir: str = ".", outputFile: str = "db_features.pkl"
     ):
         if not os.path.exists(databaseDir):
-            print("錯誤：找不到資料夾")
+            print("Error: Directory not found.")
             return
 
         databaseFeatures = {"orb": {}, "sift": {}}
@@ -69,7 +69,7 @@ class FeatureMatcher:
             for f in os.listdir(databaseDir)
             if f.lower().endswith((".png", ".jpg", ".jpeg"))
         ]
-        print(f"正在建立 {len(files)} 張圖片的雙重索引 (ORB + SIFT)...")
+        print(f"Building dual index (ORB + SIFT) for {len(files)} images...")
 
         count = 0
         for filename in files:
@@ -90,17 +90,17 @@ class FeatureMatcher:
 
             count += 1
             if count % 100 == 0:
-                print(f"已處理 {count} 張...")
+                print(f"Processed {count} images...")
 
         with open(outputFile, "wb") as f:
             pickle.dump(databaseFeatures, f)
 
         print("--------------------------------")
-        print(f"雙重索引建立完成！有效圖片數: {count}")
+        print(f"Dual index built successfully! Valid images: {count}")
 
     def loadAndPrepareIndex(self, indexFilePath: str):
         if not os.path.exists(indexFilePath):
-            raise FileNotFoundError(f"找不到特徵庫檔案: {indexFilePath}")
+            raise FileNotFoundError(f"Feature database file not found: {indexFilePath}")
 
         with open(indexFilePath, "rb") as f:
             rawData = pickle.load(f)
@@ -215,14 +215,14 @@ class FeatureMatcher:
             if res:
                 return (res[0], res[1], "ORB")
 
-            logger.info("ORB 辨識失敗，啟動 SIFT 備援路徑...")
+            logger.info("ORB recognition failed, starting SIFT fallback...")
             res = self.identifyProcess(targetImg, mode="SIFT")
             if res:
                 return (res[0], res[1], "SIFT")
 
             return None
         except Exception as e:
-            logger.error(f"辨識錯誤: {e}")
+            logger.error(f"Recognition error: {e}")
             return None
 
 
@@ -271,8 +271,8 @@ class AutoCatchBot:
     def registerEvents(self):
         @self.client.event
         async def on_ready():
-            print(f"\n登入身分: {self.client.user}")
-            print("自動監聽模組就緒。")
+            print(f"\nLogged in as: {self.client.user}")
+            print("Auto-listener module ready.")
 
         @self.client.event
         async def on_message(message):
@@ -324,14 +324,16 @@ class AutoCatchBot:
                                     pokeId, "Unknown Name"
                                 )
                                 print("--------------------------------")
-                                print(f"[辨識成功] 名稱: {englishName}")
-                                print(f" - 匹配檔名: {matchedFilename}")
-                                print(f" - 辨識引擎: {engine}")
-                                print(f" - 特徵特數: {score}")
+                                print(f"[Match Success] Name: {englishName}")
+                                print(f" - Matched File: {matchedFilename}")
+                                print(f" - Engine: {engine}")
+                                print(f" - Feature Score: {score}")
                                 print("--------------------------------")
                                 doAutoCatch(englishName)
                             else:
-                                print("[辨識失敗] 無法匹配此圖片。")
+                                print("[Match Failed] Cannot match this image.")
+                                with open("failed.txt", "a", encoding="utf-8") as f:
+                                    f.write(f"{imageUrl}\n")
                                 if self.failDown:
                                     if not os.path.exists("failed"):
                                         os.makedirs("failed")
@@ -377,17 +379,17 @@ class AutoScanBot:
             targetImg = ImageUtils.resizeImage(targetImg, 640)
             return self.matcher.identifyProcess(targetImg, mode="ORB")
         except Exception as e:
-            logger.error(f"辨識過程發生錯誤: {e}")
+            logger.error(f"Recognition process error: {e}")
             return None
 
     def registerEvents(self):
         @self.client.event
         async def on_ready():
-            print(f"機器人已連線: {self.client.user}")
+            print(f"Bot connected: {self.client.user}")
 
             guild = self.client.get_guild(self.targetGuildId)
             if not guild:
-                print("找不到指定伺服器")
+                print("Target guild not found.")
                 await self.client.close()
                 return
 
@@ -398,10 +400,10 @@ class AutoScanBot:
             writer = csv.writer(csvFile)
             if os.stat(self.outputCsv).st_size == 0:
                 writer.writerow(
-                    ["頻道", "訊息ID", "發送者", "匹配檔案", "票數", "URL"]
+                    ["Channel", "MessageID", "Sender", "MatchedFile", "Votes", "URL"]
                 )
 
-            print(f"開始並行掃描 {guild.name}，請稍候...\n")
+            print(f"Starting parallel scan on {guild.name}, please wait...\n")
 
             async def processSingleChannel(channel, session):
                 async with semaphore:
@@ -450,7 +452,7 @@ class AutoScanBot:
                             if result:
                                 matchedFile, count = result
                                 print(
-                                    f"[成功] 頻道: {channel.name.ljust(15)} | 匹配: {matchedFile} ({count} 票)"
+                                    f"[Success] Channel: {channel.name.ljust(15)} | Match: {matchedFile} ({count} votes)"
                                 )
                                 async with fileLock:
                                     writer.writerow(
@@ -465,11 +467,11 @@ class AutoScanBot:
                                     )
                             else:
                                 print(
-                                    f"[失敗] 頻道: {channel.name.ljust(15)} | 無匹配結果"
+                                    f"[Failed] Channel: {channel.name.ljust(15)} | No match found"
                                 )
 
                     except Exception as e:
-                        logger.debug(f"頻道處理異常 ({channel.name}): {e}")
+                        logger.debug(f"Channel processing exception ({channel.name}): {e}")
 
             async with aiohttp.ClientSession() as session:
                 channels = [
@@ -481,7 +483,7 @@ class AutoScanBot:
                 await asyncio.gather(*tasks)
 
             csvFile.close()
-            print("\n[完成] 所有頻道已判讀完畢，結果存於 CSV。")
+            print("\n[Complete] All channels scanned, results saved to CSV.")
             await self.client.close()
 
     def start(self):
@@ -494,7 +496,7 @@ class DownloaderService:
         filePath: str = "failed.txt", outputDir: str = "downloaded_failed_attachments"
     ):
         if not os.path.exists(filePath):
-            print(f"找不到檔案 {filePath}，請確定它與本程式放在同一個資料夾。")
+            print(f"File {filePath} not found, please ensure it is in the same directory.")
             return
 
         with open(filePath, "r", encoding="utf-8") as f:
@@ -509,7 +511,7 @@ class DownloaderService:
             os.makedirs(outputDir)
 
         print(
-            f"解析完畢！共找到 {len(urls)} 個有效的下載連結，準備開始下載...\n"
+            f"Parsing complete! Found {len(urls)} valid download links, starting download...\n"
         )
 
         successCount = 0
@@ -529,15 +531,15 @@ class DownloaderService:
                 with open(savePath, "wb") as imgFile:
                     imgFile.write(response.content)
 
-                print(f"[{i + 1}/{len(urls)}] 成功下載 -> {saveName}")
+                print(f"[{i + 1}/{len(urls)}] Download successful -> {saveName}")
                 successCount += 1
 
             except requests.exceptions.RequestException as e:
-                print(f"[{i + 1}/{len(urls)}] 下載失敗: {url}\n   └─ 錯誤原因: {e}")
+                print(f"[{i + 1}/{len(urls)}] Download failed: {url}\n   └─ Reason: {e}")
             except Exception as e:
-                print(f"[{i + 1}/{len(urls)}] 發生未預期的錯誤: {e}")
+                print(f"[{i + 1}/{len(urls)}] Unexpected error: {e}")
 
-        print(f"\n下載作業結束！成功下載了 {successCount} 個檔案。")
+        print(f"\nDownload finished! Successfully downloaded {successCount} files.")
 
 
 class AppRunner:
@@ -550,11 +552,11 @@ class AppRunner:
         rawToken = input("TOKEN: ").strip()
         discordBotToken = rawToken if rawToken else "DEFAULT_TOKEN"
 
-        rawChannel = input("頻道ID: ").strip()
+        rawChannel = input("Channel ID: ").strip()
         try:
             targetChannelId = int(rawChannel)
         except ValueError:
-            print("錯誤：輸入的頻道 ID 非有效數字，程式終止。")
+            print("Error: Invalid Channel ID format, terminating.")
             return
 
         indexFile = "db_features.pkl"
@@ -563,7 +565,7 @@ class AppRunner:
         try:
             self.matcher.loadAndPrepareIndex(indexFile)
         except Exception as e:
-            print(f"初始化特徵資料庫失敗: {e}")
+            print(f"Failed to initialize feature database: {e}")
             return
 
         pokemonMap = PokemonDataLoader.loadPokemonMapping(pokeListFile)
@@ -577,14 +579,14 @@ class AppRunner:
         bot.start()
 
     def runScan(self):
-        rawToken = input("TOKEN：").strip()
+        rawToken = input("TOKEN: ").strip()
         discordBotToken = rawToken if rawToken else "DEFAULT_TOKEN"
 
-        rawGuild = input("伺服器ID：").strip()
+        rawGuild = input("Guild ID: ").strip()
         try:
             targetGuildId = int(rawGuild)
         except ValueError:
-            print("錯誤：伺服器 ID 格式不正確，程式終止。")
+            print("Error: Invalid Guild ID format, terminating.")
             return
 
         indexFile = "db_features.pkl"
@@ -592,7 +594,7 @@ class AppRunner:
         try:
             self.matcher.loadAndPrepareIndex(indexFile)
         except Exception as e:
-            print(f"初始化特徵資料庫失敗: {e}")
+            print(f"Failed to initialize feature database: {e}")
             return
 
         bot = AutoScanBot(
@@ -610,16 +612,16 @@ class AppRunner:
         self.matcher.buildCombinedIndex("data")
 
 def doAutoCatch(Name):
-    ...
+    pass
 
 def main():
     parser = argparse.ArgumentParser(
-        description="整合自動抓取、頻道掃描與失敗檔下載工具"
+        description="Auto-catch, channel scan, and failed download tool"
     )
     parser.add_argument(
         "mode",
         choices=["catch", "scan", "failcheck", "buildindex"],
-        help="執行模式：catch (自動抓取), scan (頻道掃描), failcheck (失敗下載), buildindex (建立特徵庫)",
+        help="Execution mode: catch, scan, failcheck, buildindex",
     )
     args = parser.parse_args()
 
@@ -636,4 +638,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
