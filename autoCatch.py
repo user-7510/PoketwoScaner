@@ -20,7 +20,7 @@ def autoPauseLinux(content):
         sleep(0.2)
         key('ctrl+v')
         key('enter')
-def autoResumeLinux(content):
+def autoResumeLinux():
     if True:
         key('ctrl+a')
         sleep(0.2)
