@@ -291,9 +291,22 @@ class AutoCatchBot:
             if message.channel.id != self.targetChannelId:
                 return
             if message.author.id != self.targetUserId:
-                return
+                pass#return
             autoPauseLinux(message.content)
-            autoResumeLinux(message.embeds[0].footer.text)
+            if message.embeds :
+                for embed in message .embeds :
+                    check_text =""
+                    if embed .footer and embed .footer .text :
+                        check_text +=embed .footer .text 
+                    if embed .description :
+                        check_text +=embed .description 
+                    for field in embed .fields :
+                        check_text +=f" {field .value }"
+                    if "Spawns Remaining: 0"in check_text :
+                        print ("'Spawns Remaining: 0' detected.")
+                        autoResumeLinux()
+                        done =True 
+                        break 
             imageUrl = None
             if message.attachments:
                 for att in message.attachments:

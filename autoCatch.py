@@ -1,8 +1,9 @@
+from random import randint
+from keyboard import press_and_release as key
+from pyperclip import copy, paste
+from time import sleep
+
 def autoCatchLinux(Name):
-    from random import randint
-    from keyboard import press_and_release as key
-    from pyperclip import copy, paste
-    from time import sleep
     key('ctrl+a')
     sleep(0.2)
     copy(f"@Pokétwo#8236 c {Name}")
@@ -20,7 +21,7 @@ def autoPauseLinux(content):
         key('ctrl+v')
         key('enter')
 def autoResumeLinux(content):
-    if "Spawns Remaining: 0."in content:
+    if True:
         key('ctrl+a')
         sleep(0.2)
         copy('@Pokétwo#8236 inc buy 30minute 30second -y')
