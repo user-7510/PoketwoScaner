@@ -298,6 +298,7 @@ class AutoCatchBot:
                 if "Spawns Remaining: 0"in message.embeds[0].footer.text:
                     print ("'Spawns Remaining: 0' detected.")
                     autoResumeLinux()
+            imageUrl=None
             if message.attachments:
                 for att in message.attachments:
                     if any(
