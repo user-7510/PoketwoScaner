@@ -292,20 +292,8 @@ class AutoCatchBot:
                 return
             if message.author.id != self.targetUserId:
                 return
-            if "Whoa there."in message.content:
-                key('enter')
-                sleep(0.2)
-                copy('@Pokétwo#8236 inc p')
-                sleep(0.2)
-                key('ctrl+v')
-                key('enter')
-            if "Spawns Remaining: 0."in message.content:
-                key('enter')
-                sleep(0.2)
-                copy('@Pokétwo#8236 inc buy 30minute 30second -y')
-                sleep(0.2)
-                key('ctrl+c')
-                key('enter')
+            autoPauseLinux(message.content)
+            autoResumeLinux(message.embeds[0].footer.text)
             imageUrl = None
             if message.attachments:
                 for att in message.attachments:
