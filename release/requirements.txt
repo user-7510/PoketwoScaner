@@ -1,0 +1,9 @@
+discord.py
+opencv-python
+numpy
+pandas
+aiohttp
+requests
+keyboard
+pyautogui
+pygetwindow

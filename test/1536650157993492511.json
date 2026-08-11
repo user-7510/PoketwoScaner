@@ -1,0 +1,49 @@
+{
+  "id": 1536650157993492511,
+  "content": "",
+  "author": {
+    "id": 716390085896962058,
+    "name": "Pokétwo",
+    "displayName": "Pokétwo",
+    "bot": true
+  },
+  "channelId": 1468632826202161257,
+  "guildId": 1468632825095000068,
+  "createdAt": "2026-08-11T08:19:07.245000+00:00",
+  "editedAt": null,
+  "jumpUrl": "https://discord.com/channels/1468632825095000068/1468632826202161257/1536650157993492511",
+  "pinned": false,
+  "tts": false,
+  "type": "MessageType.default",
+  "mentionEveryone": false,
+  "mentions": [],
+  "roleMentions": [],
+  "channelMentions": [],
+  "attachments": [],
+  "embeds": [
+    {
+      "footer": {
+        "text": "Incense: Active.\nSpawns Remaining: 0.\nSpawn Interval: 30s.\nEnds in now at"
+      },
+      "image": {
+        "url": "https://cdn.discordapp.com/attachments/1468632826202161257/1536650158085775411/pokemon.jpg?ex=6a7c2c7b&is=6a7adafb&hm=c1331fc8a2b46b48b94167fae088ad9c98732a2f9e3c08c6d4e09be0dacc16b3&",
+        "proxy_url": "https://media.discordapp.net/attachments/1468632826202161257/1536650158085775411/pokemon.jpg?ex=6a7c2c7b&is=6a7adafb&hm=c1331fc8a2b46b48b94167fae088ad9c98732a2f9e3c08c6d4e09be0dacc16b3&",
+        "width": 800,
+        "height": 500,
+        "content_type": "image/jpeg",
+        "placeholder": "lMgNFIJneadwiIeIaIlXcAexSg==",
+        "placeholder_version": 1
+      },
+      "flags": 0,
+      "color": 16685769,
+      "timestamp": "2026-08-11T08:19:06.988000+00:00",
+      "type": "rich",
+      "description": "Guess the pokémon and type `@Pokétwo#8236 catch <pokémon>` to catch it!",
+      "title": "A wild pokémon has appeared!"
+    }
+  ],
+  "reactions": [],
+  "stickers": [],
+  "flags": 0,
+  "reference": null
+}
